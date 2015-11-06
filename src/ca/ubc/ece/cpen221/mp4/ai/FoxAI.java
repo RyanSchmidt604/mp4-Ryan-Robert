@@ -1,5 +1,6 @@
 package ca.ubc.ece.cpen221.mp4.ai;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -28,8 +29,26 @@ public class FoxAI extends AbstractAI {
 
 	@Override
 	public Command getNextAction(ArenaWorld world, ArenaAnimal animal) {
-		// TODO: Change this. Implement your own AI to make decisions regarding
-		// the next action.
+		Set<Item> nearbyItems = world.searchSurroundings(animal);
+		Set<Item> enemies = new HashSet<>();
+		Set<Item> friendlies = new HashSet<>();
+		Set<Item> prey = new HashSet<>();
+		
+		for(Item item : nearbyItems){
+		    if(item.getStrength() > animal.getStrength()){
+		        enemies.add(item);
+		    }if(item.getStrength() == animal.getStrength()){
+		        friendlies.add(item);
+		    }else{
+		        prey.add(item);
+		    }
+		}
+		
+		int energy = animal.getEnergy();
+		if(energy < animal.getViewRange()){
+		    
+		}
+		
 		return new WaitCommand();
 	}
 
