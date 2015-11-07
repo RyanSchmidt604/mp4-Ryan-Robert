@@ -1,7 +1,6 @@
 package ca.ubc.ece.cpen221.mp4.ai;
 
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 import ca.ubc.ece.cpen221.mp4.ArenaWorld;
 import ca.ubc.ece.cpen221.mp4.Direction;
@@ -33,44 +32,67 @@ public class RabbitAI extends AbstractAI {
 
 	@Override
 	public Command getNextAction(ArenaWorld world, ArenaAnimal animal) {
+		Set<Direction> directions = new HashSet<Direction>();
 		Set<Item> surroundings = world.searchSurroundings(animal);
+		List<Item> foods = new ArrayList<Item>();
+		List<Item> notPredators = new ArrayList<Item>();
+		List<Item> predators = new ArrayList<Item>();
+
 		for (Item item : surroundings) {
-			if (item instanceof Fox) {
-				Direction foxDirection = Util.getDirectionTowards(animal.getLocation(), item.getLocation());
-				if (foxDirection == Direction.NORTH) {
-					foxDirection = Direction.SOUTH;
-				}
-				if (foxDirection == Direction.EAST) {
-					foxDirection = Direction.WEST;
-				}
-				if (foxDirection == Direction.SOUTH) {
-					foxDirection = Direction.NORTH;
-				}
-				if (foxDirection == Direction.WEST) {
-					foxDirection = Direction.EAST;
-				}
-				Location newLocation = new Location(animal.getLocation(),
-						Util.getDirectionTowards(animal.getLocation(), item.getLocation()));
-				new MoveCommand(animal, newLocation);
+			if (item.getPlantCalories() != 0 && item.getStrength() < animal.getStrength()) {
+				foods.add(item);
+			} else if (item.getStrength() > animal.getStrength()) {
+				predators.add(item);
+			} else if (item.getStrength() <= animal.getStrength()) {
+				notPredators.add(item);
 			}
 		}
-		for (Item item : surroundings) {
-			if (item instanceof Grass) {
-				if (animal.getLocation().getDistance(item.getLocation()) == 1) {
-					return new EatCommand(animal, item);
+
+		if (animal.getEnergy() < animal.getMaxEnergy() / 4 && !(foods.isEmpty())) {
+			Item closestFood = foods.get(0);
+			for (Item food : foods) {
+				if (food.getLocation().getDistance(animal.getLocation()) < closestFood.getLocation()
+						.getDistance(animal.getLocation())) {
+					closestFood = food;
+				}
+				if (closestFood.getLocation().getDistance(animal.getLocation()) == 1) {
+					return new EatCommand(animal, food);
 				} else {
-					Location newLocation = new Location(animal.getLocation(),
-							Util.getDirectionTowards(animal.getLocation(), item.getLocation()));
-					new MoveCommand(animal, newLocation);
+					Direction closestFoodDirection = Util.getDirectionTowards(animal.getLocation(),
+							closestFood.getLocation());
+					Location newLocation = new Location(animal.getLocation(), closestFoodDirection);
+					if (Util.isValidLocation(world, newLocation)) {
+						return new MoveCommand(animal, newLocation);
+					}
+
 				}
 			}
 		}
-		if (animal.getEnergy() >= animal.getMaxEnergy()) {
-			Location breedLocation = Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation());
-			if (Util.isValidLocation(world, breedLocation)) {
-				return new BreedCommand(animal.breed(), breedLocation);
-			}
+		if(animal.getEnergy()>=3*animal.getMaxEnergy()/4){
+			return new BreedCommand(animal,new Location(animal.getLocation(),Util.getRandomDirection()));
 		}
-		return new MoveCommand(animal, Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation()));
+
+		Location newLocation = new Location(animal.getLocation(), Util.getRandomDirection());
+		if (Util.isValidLocation(world, newLocation)) {
+			return new MoveCommand(animal, newLocation);
+		}
+		return new WaitCommand();
+	}
+
+	private Direction getOppositeDirection(Direction foxDirection) {
+		if (foxDirection == Direction.NORTH) {
+			foxDirection = Direction.SOUTH;
+		}
+		if (foxDirection == Direction.EAST) {
+			foxDirection = Direction.WEST;
+		}
+		if (foxDirection == Direction.SOUTH) {
+			foxDirection = Direction.NORTH;
+		}
+		if (foxDirection == Direction.WEST) {
+			foxDirection = Direction.EAST;
+		}
+		return foxDirection;
+
 	}
 }
