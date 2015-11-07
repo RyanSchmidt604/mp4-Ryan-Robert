@@ -6,17 +6,13 @@ import ca.ubc.ece.cpen221.mp4.ArenaWorld;
 import ca.ubc.ece.cpen221.mp4.Direction;
 import ca.ubc.ece.cpen221.mp4.Location;
 import ca.ubc.ece.cpen221.mp4.Util;
-import ca.ubc.ece.cpen221.mp4.World;
 import ca.ubc.ece.cpen221.mp4.commands.BreedCommand;
 import ca.ubc.ece.cpen221.mp4.commands.Command;
 import ca.ubc.ece.cpen221.mp4.commands.EatCommand;
 import ca.ubc.ece.cpen221.mp4.commands.MoveCommand;
 import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
-import ca.ubc.ece.cpen221.mp4.items.Grass;
 import ca.ubc.ece.cpen221.mp4.items.Item;
 import ca.ubc.ece.cpen221.mp4.items.animals.ArenaAnimal;
-import ca.ubc.ece.cpen221.mp4.items.animals.Fox;
-import ca.ubc.ece.cpen221.mp4.items.animals.Rabbit;
 
 /**
  * Your Rabbit AI.
@@ -32,7 +28,6 @@ public class RabbitAI extends AbstractAI {
 
 	@Override
 	public Command getNextAction(ArenaWorld world, ArenaAnimal animal) {
-		Set<Direction> directions = new HashSet<Direction>();
 		Set<Item> surroundings = world.searchSurroundings(animal);
 		List<Item> foods = new ArrayList<Item>();
 		List<Item> notPredators = new ArrayList<Item>();
@@ -48,7 +43,7 @@ public class RabbitAI extends AbstractAI {
 			}
 		}
 
-		if (animal.getEnergy() < animal.getMaxEnergy() / 4 && !(foods.isEmpty())) {
+		if (animal.getEnergy() < animal.getMaxEnergy() / 5 && !(foods.isEmpty())) {
 			Item closestFood = foods.get(0);
 			for (Item food : foods) {
 				if (food.getLocation().getDistance(animal.getLocation()) < closestFood.getLocation()
@@ -68,8 +63,19 @@ public class RabbitAI extends AbstractAI {
 				}
 			}
 		}
-		if(animal.getEnergy()>=3*animal.getMaxEnergy()/4){
-			return new BreedCommand(animal,new Location(animal.getLocation(),Util.getRandomDirection()));
+		if (!predators.isEmpty()) {
+			Item closestPredator = predators.get(0);
+			for (Item i : predators) {
+				if (i.getLocation().getDistance(animal.getLocation()) < closestPredator.getLocation()
+						.getDistance(animal.getLocation())) {
+					closestPredator = i;
+				}
+			}
+			return new MoveCommand(animal, new Location(animal.getLocation(), getOppositeDirection(
+					Util.getDirectionTowards(animal.getLocation(), closestPredator.getLocation()))));
+		}
+		if (animal.getEnergy() >= 3 * animal.getMaxEnergy() / 4) {
+			return new BreedCommand(animal, new Location(animal.getLocation(), Util.getRandomDirection()));
 		}
 
 		Location newLocation = new Location(animal.getLocation(), Util.getRandomDirection());
