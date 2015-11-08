@@ -35,18 +35,49 @@ public class FoxAI extends AbstractAI {
 		Set<Item> prey = new HashSet<>();
 		
 		for(Item item : nearbyItems){
-		    if(item.getStrength() > animal.getStrength()){
+		    if(item.equals(animal)){
+		        
+		    }else if(item.getStrength() > animal.getStrength()){
 		        enemies.add(item);
-		    }if(item.getStrength() == animal.getStrength()){
+		    }else if(item.getStrength() == animal.getStrength()){
 		        friendlies.add(item);
-		    }else{
-		        prey.add(item);
+		    }else if(item.getMeatCalories() > 0){
+		            prey.add(item);
 		    }
 		}
 		
 		int energy = animal.getEnergy();
-		if(energy < animal.getViewRange()){
-		    
+		Item closestEnemy = null;
+		for(Item enemy : enemies){
+		    if(closestEnemy == null){
+		        closestEnemy = enemy;
+		    }else if(closestEnemy.getLocation().getDistance(animal.getLocation()) > 
+		            enemy.getLocation().getDistance(animal.getLocation())){
+		        
+		        closestEnemy = enemy;
+		    }
+		}
+		if(energy <= animal.getMovingRange()){
+		    for(Item food : prey){
+		        if(food.getLocation().getDistance(animal.getLocation()) == 1){
+		            return new EatCommand(animal, food);
+		        }
+		    }
+		}
+		if(closestEnemy != null && closestEnemy.getLocation().getDistance(animal.getLocation()) <
+		        animal.getMovingRange()){
+		    Direction oppositeDir = Util.getDirectionTowards(
+		            closestEnemy.getLocation(), animal.getLocation());
+		    Location target = new Location(animal.getLocation());
+		    for(int i = animal.getMovingRange(); i >=1; i--){
+		        for(int j = 0; j <= i; j++){
+		            target = new Location(target, oppositeDir);
+		            
+		        }
+		        if(Util.isValidLocation(world, target)){
+		            
+		        }
+		    }
 		}
 		
 		return new WaitCommand();
