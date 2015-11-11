@@ -26,8 +26,8 @@ public class Elephant extends AbstractArenaAnimal {
     @Override
     public LivingItem breed() {
         Elephant child = new Elephant(this.getLocation());
-        child.setEnergy(this.getEnergy()/2);
-        this.setEnergy(this.getEnergy()/2);
+        child.setEnergy(this.getEnergy() / 2);
+        this.setEnergy(this.getEnergy() / 2);
         return child;
     }
 
@@ -53,11 +53,11 @@ public class Elephant extends AbstractArenaAnimal {
                 food.add(i);
             }
         }
-        for (Item i1 : food) {
-            if (i1.getLocation().getDistance(this.getLocation()) == 1) {
-                return new EatCommand(this, i1);
+        for (Item i : food) {
+            if (i.getLocation().getDistance(this.getLocation()) == 1) {
+                return new EatCommand(this, i);
             } else {
-                Direction dir = Util.getDirectionTowards(this.getLocation(), i1.getLocation());
+                Direction dir = Util.getDirectionTowards(this.getLocation(), i.getLocation());
                 actionLocation = new Location(this.getLocation(), dir);
                 if (Util.isValidLocation(world, actionLocation) && Util.isLocationEmpty(world, actionLocation)) {
                     return new MoveCommand(this, actionLocation);
