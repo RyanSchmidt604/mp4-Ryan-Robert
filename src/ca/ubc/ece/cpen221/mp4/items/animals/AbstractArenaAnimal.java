@@ -37,6 +37,9 @@ public abstract class AbstractArenaAnimal implements ArenaAnimal { // abstract
 		energy = Math.min(MAX_ENERGY, energy + food.getMeatCalories());
 	}
 
+	protected void setImage(ImageIcon i){
+	    this.image=i;
+	}
 	protected void setINITIAL_ENERGY(int i) {
 		this.INITIAL_ENERGY = i;
 	}

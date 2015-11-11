@@ -99,4 +99,10 @@ public class AbstractNonArenaAnimal implements LivingItem {
 
 	}
 
+    @Override
+    public int getPlantCalories() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
 }
