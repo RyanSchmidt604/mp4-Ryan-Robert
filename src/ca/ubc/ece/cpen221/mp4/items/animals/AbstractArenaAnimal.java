@@ -117,7 +117,7 @@ public abstract class AbstractArenaAnimal implements ArenaAnimal { // abstract
 
 	@Override
 	public Command getNextAction(World world) {
-		Command nextAction = ai.getNextAction(world, this);
+		Command nextAction = getAi().getNextAction(world, this);
 		this.energy--; // Loses 1 energy regardless of action.
 		return nextAction;
 	}
@@ -151,4 +151,12 @@ public abstract class AbstractArenaAnimal implements ArenaAnimal { // abstract
 	public void moveTo(Location targetLocation) {
 		location = targetLocation;
 	}
+
+    public AI getAi() {
+        return ai;
+    }
+
+    public void setAi(AI ai) {
+        this.ai = ai;
+    }
 }

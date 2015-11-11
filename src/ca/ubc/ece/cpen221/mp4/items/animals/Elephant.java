@@ -12,8 +12,6 @@ import ca.ubc.ece.cpen221.mp4.items.LivingItem;
 
 public class Elephant extends AbstractArenaAnimal {
 
-    private int energy;
-
     public Elephant(Location initialLocation) {
         this.setINITIAL_ENERGY(200);
         this.setMAX_ENERGY(400);
@@ -28,8 +26,8 @@ public class Elephant extends AbstractArenaAnimal {
     @Override
     public LivingItem breed() {
         Elephant child = new Elephant(this.getLocation());
-        child.energy = energy / 2;
-        this.energy = energy / 2;
+        child.setEnergy(this.getEnergy()/2);;
+        this.setEnergy(this.getEnergy()/2);
         return child;
     }
 
