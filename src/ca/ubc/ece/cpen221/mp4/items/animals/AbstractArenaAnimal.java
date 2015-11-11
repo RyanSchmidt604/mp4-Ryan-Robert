@@ -71,7 +71,13 @@ public abstract class AbstractArenaAnimal implements ArenaAnimal { // abstract
 	protected void setLocation(Location l) {
 		this.location = l;
 	}
+    public AI getAi() {
+        return ai;
+    }
 
+    public void setAi(AI ai) {
+        this.ai = ai;
+    }
 	@Override
 	public int getCoolDownPeriod() {
 		return COOLDOWN;
@@ -152,11 +158,5 @@ public abstract class AbstractArenaAnimal implements ArenaAnimal { // abstract
 		location = targetLocation;
 	}
 
-    public AI getAi() {
-        return ai;
-    }
 
-    public void setAi(AI ai) {
-        this.ai = ai;
-    }
 }

@@ -19,14 +19,14 @@ public class Elephant extends AbstractArenaAnimal {
         this.setVIEW_RANGE(10);
         this.setMIN_BREEDING_ENERGY(400);
         this.setCOOLDOWN(2);
-        this.setImage(Util.loadImage("elephant.gif"));
+        this.setImage(Util.loadImage("elephant..gif"));
         this.setLocation(initialLocation);
     }
 
     @Override
     public LivingItem breed() {
         Elephant child = new Elephant(this.getLocation());
-        child.setEnergy(this.getEnergy()/2);;
+        child.setEnergy(this.getEnergy()/2);
         this.setEnergy(this.getEnergy()/2);
         return child;
     }
