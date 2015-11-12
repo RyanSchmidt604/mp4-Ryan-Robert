@@ -16,13 +16,14 @@ import ca.ubc.ece.cpen221.mp4.items.LivingItem;
  * This is a simple implementation of a Gnat. It never loses energy and moves in
  * random directions.
  */
-public class Gnat extends AbstractNonArenaAnimal {
+public class Gnat implements LivingItem {
 	private static final ImageIcon gnatImage = Util.loadImage("gnat.gif");
 
 	private static final int MEAT_CALORIES = 100;
 	private static final int STRENGTH = 10;
 
-	
+	private Location location;
+	private boolean isDead;
 
 	/**
 	 * Create a new Gnat at <code>initialLocation</code>. The
