@@ -1,5 +1,6 @@
 package ca.ubc.ece.cpen221.mp4.items.Vehicles;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.ImageIcon;
@@ -15,6 +16,7 @@ import ca.ubc.ece.cpen221.mp4.items.MoveableItem;
 public abstract class AstractVehicle implements MoveableItem, Actor {
     
     private int STRENGTH;
+    private int energy;
     private int MASS;
     private int momentum = 0;
     private Direction currentDirection;
@@ -48,7 +50,10 @@ public abstract class AstractVehicle implements MoveableItem, Actor {
 
     @Override
     public void loseEnergy(int energy) {
-        return;
+        this.energy -= energy;
+        if(this.energy <=0){
+            isDead = true;
+        }
     }
 
     @Override
@@ -74,9 +79,14 @@ public abstract class AstractVehicle implements MoveableItem, Actor {
     @Override
     public Command getNextAction(World world) {
         Set<Item> nearbyItems = world.searchSurroundings(location, VIEW_RANGE);
+        Set<Item> prey = new HashSet<>();
         for(Item item : nearbyItems){
-            
+            if(item.getStrength() < STRENGTH){
+                prey.add(item);
+            }
         }
+        
+        
     }
 
     @Override
