@@ -19,6 +19,9 @@ public abstract class AbstractHumans implements MoveableItem, Actor {
     private int MOVING_RANGE;
     private Location location;
 
+    protected void setlocation(Location l){
+        this.location=l;
+    }
     protected void setPLANT_CALORIES(int i) {
         this.PLANT_CALORIES = i;
     }
@@ -88,10 +91,8 @@ public abstract class AbstractHumans implements MoveableItem, Actor {
     }
 
     @Override
-    public Command getNextAction(World world) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public abstract Command getNextAction(World world); 
+     
 
     @Override
     public void loseEnergy(int energy) {
