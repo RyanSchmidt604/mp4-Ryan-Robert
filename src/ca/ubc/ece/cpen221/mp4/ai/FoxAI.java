@@ -21,7 +21,8 @@ import ca.ubc.ece.cpen221.mp4.items.animals.*;
  * Your Fox AI.
  */
 public class FoxAI extends AbstractAI {
-	private int closest = 2; // max number; greater than fox's view range
+	private Location previousLocation;
+	private Command previousCommand;
 
 	public FoxAI() {
 
@@ -33,6 +34,22 @@ public class FoxAI extends AbstractAI {
 		Set<Item> enemies = new HashSet<>();
 		Set<Item> friendlies = new HashSet<>();
 		Set<Item> prey = new HashSet<>();
+		
+		int counter = 0;
+		
+		if(previousLocation.equals(animal.getLocation()) && previousCommand instanceof MoveCommand){
+		    Location target = new Location(animal.getLocation());
+		    while(target.equals(animal.getLocation()) && !Util.isValidLocation(world, target)){
+		        if(counter > 15){
+		            previousCommand = new WaitCommand();
+		            return previousCommand;
+		        }
+		        target = new Location(animal.getLocation(), Util.getRandomDirection());
+		        counter++;
+		    }
+		    previousCommand = new MoveCommand(animal, target);
+		    return previousCommand;
+		}
 		
 		for(Item item : nearbyItems){
 		    if(item.equals(animal)){
@@ -69,16 +86,41 @@ public class FoxAI extends AbstractAI {
 		    Direction oppositeDir = Util.getDirectionTowards(
 		            closestEnemy.getLocation(), animal.getLocation());
 		    Location target = new Location(animal.getLocation());
+		    
 		    for(int i = animal.getMovingRange(); i >=1; i--){
 		        for(int j = 0; j <= i; j++){
 		            target = new Location(target, oppositeDir);
-		            
 		        }
 		        if(Util.isValidLocation(world, target)){
-		            
+		            previousLocation = animal.getLocation();
+		            previousCommand = new MoveCommand(animal, target);
+		            return previousCommand;
 		        }
 		    }
 		}
+		if(energy > ((animal.getMaxEnergy()/2)*1.25)){
+		    
+		}
+		
+		Item closestPrey = null;
+        for(Item currentPrey : prey){
+            if(closestPrey == null){
+                closestPrey = currentPrey;
+            }else if(closestPrey.getLocation().getDistance(animal.getLocation()) > 
+                    currentPrey.getLocation().getDistance(animal.getLocation())){
+                closestPrey = currentPrey;
+            }
+        }
+        if(closestPrey != null){
+            Direction towardsFood = Util.getDirectionTowards(animal.getLocation(), 
+                    closestPrey.getLocation());
+            int distanceToFood = animal.getLocation().getDistance(closestPrey.getLocation());
+            if(distanceToFood <= animal.getMovingRange()){
+                
+            }
+        }
+        
+        
 		
 		return new WaitCommand();
 	}
