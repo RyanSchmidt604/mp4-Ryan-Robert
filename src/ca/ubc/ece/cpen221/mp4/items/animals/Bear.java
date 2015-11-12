@@ -16,7 +16,7 @@ import ca.ubc.ece.cpen221.mp4.items.LivingItem;
 
 public class Bear extends AbstractArenaAnimal {
 
-    Bear(Location initialLocation) {
+    public Bear(Location initialLocation) {
         this.setINITIAL_ENERGY(100);
         this.setMAX_ENERGY(150);
         this.setSTRENGTH(150);

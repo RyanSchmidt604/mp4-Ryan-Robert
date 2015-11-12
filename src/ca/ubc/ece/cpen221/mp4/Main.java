@@ -34,6 +34,7 @@ public class Main {
 	static final int INITIAL_MANS = INITIAL_GRASS / 150;
 	static final int INITIAL_WOMANS = INITIAL_GRASS / 100;
 	static final int INITIAL_HUNTERS = INITIAL_GRASS / 150;
+	static final int INITIAL_ELEPHANTS = 1;
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -57,10 +58,16 @@ public class Main {
 		addGnats(world);
 		addRabbits(world);
 		addFoxes(world);
+		addElephants(world);
+		addBears(world);
+		addTigers(world);
+		
 		// TODO: You may add your own creatures here!
 	}
 
-	private void addGrass(World world) {
+	
+
+    private void addGrass(World world) {
 		for (int i = 0; i < INITIAL_GRASS; i++) {
 			Location loc = Util.getRandomEmptyLocation(world);
 			world.addItem(new Grass(loc));
@@ -95,4 +102,30 @@ public class Main {
 			world.addActor(rabbit);
 		}
 	}
+	private void addElephants(World world) {
+        for (int i = 0; i < INITIAL_ELEPHANTS; i++) {
+            Location loc = Util.getRandomEmptyLocation(world);
+            Elephant elephant = new Elephant(loc);
+            world.addItem(elephant);
+            world.addActor(elephant);
+        }
+    }
+	private void addBears(World world){
+	    for (int i = 0; i < INITIAL_BEARS; i++) {
+            Location loc = Util.getRandomEmptyLocation(world);
+            Bear bear = new Bear(loc);
+            world.addItem(bear);
+            world.addActor(bear);
+        }
+	    
+	}
+	private void addTigers(World world) {
+	    FoxAI foxAI = new FoxAI();
+        for (int i = 0; i < INITIAL_TIGERS; i++) {
+            Location loc = Util.getRandomEmptyLocation(world);
+            Tiger tiger = new Tiger(foxAI, loc);
+            world.addItem(tiger);
+            world.addActor(tiger);
+        }
+    }
 }
