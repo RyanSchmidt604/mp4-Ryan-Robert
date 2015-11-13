@@ -87,13 +87,18 @@ public class FoxAI extends AbstractAI {
 		    adjacentLocations[3] = new Location(animal.getLocation(), Direction.WEST);
 		    
 		    for(int i = 0; i <4; i++){
+		        boolean isValid = true;
+		        if(!Util.isValidLocation(world, adjacentLocations[i])){
+		            isValid = false;
+		        }
 		        for(Item item : nearbyItems){
-		            if(!adjacentLocations[i].equals(item.getLocation()) && 
-		                    Util.isValidLocation(world, adjacentLocations[i])){
-		               return new BreedCommand(animal, adjacentLocations[i]);
+		            if(adjacentLocations[i].equals(item.getLocation())){
+		               isValid = false;
 		            }
 		        }
-		        
+		        if(isValid){
+		            return new BreedCommand(animal, adjacentLocations[i]);
+		        }
 		    }
 		}
 		
