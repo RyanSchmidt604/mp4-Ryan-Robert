@@ -72,10 +72,17 @@ public class FoxAI extends AbstractAI {
 		        for(int j = 0; j <= i; j++){
 		            target = new Location(target, oppositeDir);
 		        }
+		        boolean isValid = true;
+		        if(!Util.isValidLocation(world, target)){
+		            isValid = false;
+		        }
 		        for(Item item : nearbyItems){
-		            if(Util.isValidLocation(world, target) && !item.getLocation().equals(target)){
-		                return new MoveCommand(animal, target);
+		            if(item.getLocation().equals(target)){
+		                isValid = false;
 		            }
+		        }
+		        if(isValid){
+		            return new MoveCommand(animal, target);
 		        }
 		    }
 		}
@@ -124,12 +131,16 @@ public class FoxAI extends AbstractAI {
                     for(int j = 1; j <= i; i++){
                         target = new Location(target, towardsFood);
                     }
+                    boolean isValid = true;
+                    if(!Util.isValidLocation(world, target)){
+                        isValid = false;
+                    }
                     for(Item item : nearbyItems){
-                        if(Util.isValidLocation(world, target) && !item.getLocation().equals(target)){
-                            return new MoveCommand(animal, target);
+                        if(item.getLocation().equals(target)){
+                            isValid = false;
                         }
                     }
-                    if(Util.isValidLocation(world, target)){
+                    if(isValid){
                         return new MoveCommand(animal, target);
                     }
                 }
