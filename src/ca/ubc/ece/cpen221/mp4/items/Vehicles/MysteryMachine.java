@@ -2,6 +2,7 @@ package ca.ubc.ece.cpen221.mp4.items.Vehicles;
 
 import javax.swing.ImageIcon;
 
+import ca.ubc.ece.cpen221.mp4.Location;
 import ca.ubc.ece.cpen221.mp4.Util;
 
 public class MysteryMachine extends AbstractVehicle {
@@ -11,9 +12,11 @@ public class MysteryMachine extends AbstractVehicle {
     private int VIEW_RANGE = 5;
     private String name = "Mystery Machine";
     private ImageIcon image = Util.loadImage("mysterymachine.jpg");
-    
-    public MysteryMachine(){
-        
+    private Location location;
+
+    public MysteryMachine(Location initialLocation){
+        this.location = initialLocation;
+
     }
 
 }
