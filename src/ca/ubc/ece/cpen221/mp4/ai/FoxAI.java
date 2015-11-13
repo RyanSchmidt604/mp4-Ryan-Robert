@@ -31,7 +31,7 @@ public class FoxAI extends AbstractAI {
 		Set<Item> friendlies = new HashSet<>();
 		Set<Item> prey = new HashSet<>();
 		
-		
+		//sort all nearby items
 		for(Item item : nearbyItems){
 		    if(item.equals(animal)){
 		        
@@ -46,7 +46,7 @@ public class FoxAI extends AbstractAI {
 		
 		int energy = animal.getEnergy();
 		Item closestEnemy = null;
-		for(Item enemy : enemies){
+		for(Item enemy : enemies){//find closest enemy
 		    if(closestEnemy == null){
 		        closestEnemy = enemy;
 		    }else if(closestEnemy.getLocation().getDistance(animal.getLocation()) > 
@@ -55,6 +55,7 @@ public class FoxAI extends AbstractAI {
 		        closestEnemy = enemy;
 		    }
 		}
+		//eat if going to die
 		if(energy <= animal.getMovingRange()){
 		    for(Item food : prey){
 		        if(food.getLocation().getDistance(animal.getLocation()) == 1){
@@ -62,12 +63,13 @@ public class FoxAI extends AbstractAI {
 		        }
 		    }
 		}
+		//if there is an enemy nearby then run away
 		if(closestEnemy != null && closestEnemy.getLocation().getDistance(animal.getLocation()) <
 		        animal.getMovingRange()){
 		    Direction oppositeDir = Util.getDirectionTowards(
 		            closestEnemy.getLocation(), animal.getLocation());
 		    Location target = new Location(animal.getLocation());
-		    
+		    //go the farthest it can at a time
 		    for(int i = animal.getMovingRange(); i >=1; i--){
 		        for(int j = 0; j <= i; j++){
 		            target = new Location(target, oppositeDir);
@@ -86,6 +88,7 @@ public class FoxAI extends AbstractAI {
 		        }
 		    }
 		}
+		//try and breed if we can
 		if(energy > (animal.getMaxEnergy()/2)){
 		    Location[] adjacentLocations = new Location[4];
 		    adjacentLocations[0] = new Location(animal.getLocation(), Direction.NORTH);
@@ -108,7 +111,7 @@ public class FoxAI extends AbstractAI {
 		        }
 		    }
 		}
-		
+		//chase prey
 		Item closestPrey = null;
         for(Item currentPrey : prey){
             if(closestPrey == null){

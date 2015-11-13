@@ -77,13 +77,13 @@ public abstract class AbstractVehicle implements MoveableItem, Actor {
     public Command getNextAction(World world) {
         Set<Item> nearbyItems = world.searchSurroundings(location, VIEW_RANGE);
         Set<Item> prey = new HashSet<>();
-        
+        //find prey
         for(Item item : nearbyItems){
             if(item.getStrength() < STRENGTH){
                 prey.add(item);
             }
         }
-        
+        //continue moving
         if(momentum > 0){
             Location target = new Location(location, currentDirection);
             Item victim = null;
@@ -101,7 +101,7 @@ public abstract class AbstractVehicle implements MoveableItem, Actor {
                 if(victim != null){
                     momentum--;
                     return new OvertakeCommand(this, victim);
-                }else{
+                }else{//this will happen if the space is taken by a item with greater strength
                     momentum = 0;
                     currentDirection = null;
                     return new WaitCommand();
@@ -126,7 +126,7 @@ public abstract class AbstractVehicle implements MoveableItem, Actor {
                 if(victim != null){
                     momentum = MASS;
                     return new OvertakeCommand(this, victim);
-                }else{
+                }else{//will get here if the space is occupied by an item with greater strength
                     momentum = 0;
                     currentDirection = null;
                     return new WaitCommand();
