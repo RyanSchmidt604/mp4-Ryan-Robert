@@ -11,4 +11,8 @@ public class Panzer extends AbstractVehicle {
     private int VIEW_RANGE = 3;
     private String name = "Mystery Machine";
     private ImageIcon image = Util.loadImage("panzer.jpg");
+    
+    public Panzer(){
+        
+    }
 }

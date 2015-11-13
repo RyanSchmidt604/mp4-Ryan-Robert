@@ -11,4 +11,8 @@ public class Harley extends AbstractVehicle {
     private int VIEW_RANGE = 7;
     private String name = "Mystery Machine";
     private ImageIcon image = Util.loadImage("motorcycles.gif");
+    
+    public Harley(){
+        
+    }
 }

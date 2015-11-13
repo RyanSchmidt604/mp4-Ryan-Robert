@@ -11,5 +11,9 @@ public class MysteryMachine extends AbstractVehicle {
     private int VIEW_RANGE = 5;
     private String name = "Mystery Machine";
     private ImageIcon image = Util.loadImage("mysterymachine.jpg");
+    
+    public MysteryMachine(){
+        
+    }
 
 }
