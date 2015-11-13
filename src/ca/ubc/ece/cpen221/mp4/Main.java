@@ -5,7 +5,12 @@ import javax.swing.SwingUtilities;
 import ca.ubc.ece.cpen221.mp4.ai.*;
 import ca.ubc.ece.cpen221.mp4.items.Gardener;
 import ca.ubc.ece.cpen221.mp4.items.Grass;
+import ca.ubc.ece.cpen221.mp4.items.Vehicles.Harley;
+import ca.ubc.ece.cpen221.mp4.items.Vehicles.MysteryMachine;
+import ca.ubc.ece.cpen221.mp4.items.Vehicles.Panzer;
 import ca.ubc.ece.cpen221.mp4.items.animals.*;
+import ca.ubc.ece.cpen221.mp4.items.humans.BuisnessMan;
+import ca.ubc.ece.cpen221.mp4.items.humans.Johnny_AppleSeed;
 import ca.ubc.ece.cpen221.mp4.staff.WorldImpl;
 import ca.ubc.ece.cpen221.mp4.staff.WorldUI;
 
@@ -35,6 +40,14 @@ public class Main {
 	static final int INITIAL_WOMANS = INITIAL_GRASS / 100;
 	static final int INITIAL_HUNTERS = INITIAL_GRASS / 150;
 	static final int INITIAL_ELEPHANTS = 1;
+    static final int INITIAL_JOHNNY = 1;
+    static final int INITIAL_HARLEY = 1;
+    static final int INITIAL_PANZER = 1;
+    static final int INITIAL_MYSTERYMACHINE = 1;
+    static final int INITIAL_MAN = 1;
+
+
+    
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -61,11 +74,25 @@ public class Main {
 		addElephants(world);
 		addBears(world);
 		addTigers(world);
+		addJohnnyAppleSeed(world);
+		addPanzer(world);
+		addHarley(world);
+		addMysteryMachine(world);
+		addBuisnessMan(world);
 		
 		// TODO: You may add your own creatures here!
 	}
 
 	
+
+    private void addBuisnessMan(World world) {
+        for (int i = 0; i < INITIAL_MAN; i++) {
+            Location loc = Util.getRandomEmptyLocation(world);
+            BuisnessMan man = new BuisnessMan(loc);
+            world.addItem(man);
+            world.addActor(man);
+        }        
+    }
 
     private void addGrass(World world) {
 		for (int i = 0; i < INITIAL_GRASS; i++) {
@@ -128,4 +155,36 @@ public class Main {
             world.addActor(tiger);
         }
     }
+	private void addJohnnyAppleSeed(World world){
+	    for (int i = 0; i < INITIAL_JOHNNY; i++) {
+            Location loc = Util.getRandomEmptyLocation(world);
+            Johnny_AppleSeed johnny = new Johnny_AppleSeed(loc);
+            world.addItem(johnny);
+            world.addActor(johnny);
+        }
+	}
+	   private void addHarley(World world){
+	        for (int i = 0; i < INITIAL_HARLEY; i++) {
+	            Location loc = Util.getRandomEmptyLocation(world);
+	            Harley harley = new Harley(loc);
+	            world.addItem(harley);
+	            world.addActor(harley);
+	        }
+	    }
+	    private void addPanzer(World world){
+	        for (int i = 0; i < INITIAL_PANZER; i++) {
+	            Location loc = Util.getRandomEmptyLocation(world);
+	            Panzer panzer = new Panzer(loc);
+	            world.addItem(panzer);
+	            world.addActor(panzer);
+	        }
+	    }
+	    private void addMysteryMachine(World world){
+	        for (int i = 0; i < INITIAL_MYSTERYMACHINE; i++) {
+	            Location loc = Util.getRandomEmptyLocation(world);
+	            MysteryMachine machine = new MysteryMachine(loc);
+	            world.addItem(machine);
+	            world.addActor(machine);
+	        }
+	    }
 }
